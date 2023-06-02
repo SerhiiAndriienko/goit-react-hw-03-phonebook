@@ -14,7 +14,7 @@ class ContactList extends Component {
 
     return (
       <ul>
-        {contacts[0] === undefined ? (
+        {contacts === null || contacts === [] ? (
           <span
             style={{
               fontStyle: 'Italic',
@@ -24,12 +24,27 @@ class ContactList extends Component {
           >
             Your phonebook is empty
           </span>
+        ) : filter === '' ? (
+          contacts.map(contact => (
+            <li key={contact.id}>
+              <span>
+                {contact.name}: {contact.number}
+              </span>
+              <button
+                onClick={() => {
+                  onDeleteContact(contact.id);
+                }}
+              >
+                Delete
+              </button>
+            </li>
+          ))
         ) : (
-          ''
-        )}
-
-        {filter === ''
-          ? contacts.map(contact => (
+          contacts
+            .filter(contact => {
+              return contact.name.toLowerCase().includes(filter.toLowerCase());
+            })
+            .map(contact => (
               <li key={contact.id}>
                 <span>
                   {contact.name}: {contact.number}
@@ -43,26 +58,7 @@ class ContactList extends Component {
                 </button>
               </li>
             ))
-          : contacts
-              .filter(contact => {
-                return contact.name
-                  .toLowerCase()
-                  .includes(filter.toLowerCase());
-              })
-              .map(contact => (
-                <li key={contact.id}>
-                  <span>
-                    {contact.name}: {contact.number}
-                  </span>
-                  <button
-                    onClick={() => {
-                      onDeleteContact(contact.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
+        )}
       </ul>
     );
   }
