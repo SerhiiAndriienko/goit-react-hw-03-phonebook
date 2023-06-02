@@ -19,16 +19,27 @@ class ContactForm extends Component {
     }
   };
   addContact = e => {
-    // e.preventDefault();
+    e.preventDefault();
+    let test;
+
     const newContactName = this.state.name;
-    const test = this.props.contacts.some(contact => {
-      return contact.name === newContactName;
-    });
-    if (test) {
-      alert(`${newContactName} is already in contacts.`);
-      return;
+    {
+      if (this.props.contacts !== null && this.props.contacts !== []) {
+        test = this.props.contacts.some(contact => {
+          return contact.name === newContactName;
+        });
+      }
+      if (test) {
+        alert(`${newContactName} is already in contacts.`);
+        return;
+      }
     }
-    const newArray = this.props.contacts;
+    let newArray;
+    if (this.props.contacts !== null && this.props.contacts !== []) {
+      newArray = this.props.contacts;
+    } else {
+      newArray = [];
+    }
     newArray.push({
       name: `${this.state.name}`,
       number: `${this.state.number}`,
@@ -38,7 +49,6 @@ class ContactForm extends Component {
       name: '',
       number: '',
     });
-    console.log(this.state);
     this.props.handleValueChange(newArray);
   };
   render() {
