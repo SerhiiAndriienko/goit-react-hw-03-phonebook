@@ -14,7 +14,7 @@ class ContactList extends Component {
 
     return (
       <ul>
-        {contacts === null || contacts === [] ? (
+        {contacts[0] === undefined ? (
           <span
             style={{
               fontStyle: 'Italic',
